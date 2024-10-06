@@ -31,11 +31,7 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
-  # SimpleDB Domain
-  MySimpleDBDomain:
-    Type: "AWS::SDB::Domain"
-    Properties:
-      Description: "Storage Virtualization SimpleDB Domain"
+
 
 Outputs:
   S3BucketOutput:
@@ -50,6 +46,4 @@ Outputs:
     Value: !Ref MyDynamoDBTable
     Description: "DynamoDB Table Name"
 
-  SimpleDBOutput:
-    Value: !Ref MySimpleDBDomain
-    Description: "SimpleDB Domain Name"
+ 
