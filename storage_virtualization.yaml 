@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS Storage Virtualization Lab
+
+Resources:
+  # S3 Bucket
+  MyS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "storage-virtualization-s3-bucket"
+
+  # EFS File System
+  MyEFSFileSystem:
+    Type: "AWS::EFS::FileSystem"
+    Properties:
+      FileSystemTags:
+        - Key: "Name"
+          Value: "StorageVirtualizationEFS"
+
+  # DynamoDB Table
+  MyDynamoDBTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: "StorageVirtualizationDynamoDB"
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "ID"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  # SimpleDB Domain
+  MySimpleDBDomain:
+    Type: "AWS::SDB::Domain"
+    Properties:
+      Description: "Storage Virtualization SimpleDB Domain"
+
+Outputs:
+  S3BucketOutput:
+    Value: !Ref MyS3Bucket
+    Description: "S3 Bucket Name"
+
+  EFSOutput:
+    Value: !Ref MyEFSFileSystem
+    Description: "EFS File System ID"
+
+  DynamoDBTableOutput:
+    Value: !Ref MyDynamoDBTable
+    Description: "DynamoDB Table Name"
+
+  SimpleDBOutput:
+    Value: !Ref MySimpleDBDomain
+    Description: "SimpleDB Domain Name"
