@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Storage Virtualization Lab</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #ffcc00;
+        }
+        a {
+            color: #00ccff;
+        }
+        .content {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>AWS Storage Virtualization Lab</h1>
+        <h2>Overview</h2>
+        <p>This project demonstrates the use of various AWS storage services, including:</p>
+        <ul>
+            <li><strong>Amazon S3</strong>: Used for storing static assets like images and web files.</li>
+            <li><strong>Amazon Elastic File System (EFS)</strong>: A scalable file system for EC2 instances.</li>
+            <li><strong>Amazon DynamoDB</strong>: A NoSQL database used for fast and predictable data access.</li>
+        </ul>
+
+        <h2>Why SimpleDB is Not Included</h2>
+        <p><strong>Amazon SimpleDB</strong> was not included in this project because it is a paid service and does not have a free-tier option. To keep this lab within the free-tier limits, it was excluded.</p>
+
+        <h2>Architecture</h2>
+        <p>The resources were created using an AWS CloudFormation template that automates the deployment of the following:</p>
+        <ul>
+            <li>An S3 bucket named <strong>"jay-storage-virtualization-s3-bucket"</strong></li>
+            <li>An EFS file system named <strong>"Jay-StorageVirtualizationEFS"</strong></li>
+            <li>A DynamoDB table named <strong>"Jay-StorageVirtualizationDynamoDB"</strong></li>
+        </ul>
+
+        <h2>CloudFormation Template</h2>
+        <p>The CloudFormation template used for this lab is as follows:</p>
+        <pre style="background-color: #333; padding: 15px; color: #ffcc00; overflow: auto;">
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS Storage Virtualization Lab by Jay
+
+Resources:
+  JayS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "jay-storage-virtualization-s3-bucket"
+      Tags:
+        - Key: "Owner"
+          Value: "Jay"
+
+  JayEFSFileSystem:
+    Type: "AWS::EFS::FileSystem"
+    Properties:
+      FileSystemTags:
+        - Key: "Name"
+          Value: "Jay-StorageVirtualizationEFS"
+        - Key: "Owner"
+          Value: "Jay"
+
+  JayDynamoDBTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: "Jay-StorageVirtualizationDynamoDB"
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "ID"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        - Key: "Owner"
+          Value: "Jay"
+
+Outputs:
+  JayS3BucketOutput:
+    Value: !Ref JayS3Bucket
+    Description: "Jay's S3 Bucket Name"
+
+  JayEFSOutput:
+    Value: !Ref JayEFSFileSystem
+    Description: "Jay's EFS File System ID"
+
+  JayDynamoDBTableOutput:
+    Value: !Ref JayDynamoDBTable
+    Description: "Jay's DynamoDB Table Name"
+        </pre>
+        
+        <h2>Project Repository</h2>
+        <p>The complete code and configuration files for this project are hosted in the following GitHub repository: <a href="https://github.com/jay-021/aws-storage-virtualization" target="_blank">AWS Storage Virtualization Repository</a>.</p>
+
+        <h2>Live Demonstration</h2>
+        <p>The project does not include a live demo yet, but the static HTML page can be used to document the setup. You can view this page hosted on GitHub Pages <a href="https://jay-021.github.io/aws-storage-virtualization/" target="_blank">here</a>.</p>
+
+        <h3>Future Enhancements</h3>
+        <p>Some potential enhancements could include integrating the resources with EC2 instances, exploring AWS Lambda, and automating more complex scenarios using Terraform or CDK.</p>
+    </div>
+</body>
+</html>
